@@ -11,8 +11,8 @@
 
 export const company = {
   // Basis
-  name: "Voorbeeld Elektrotechniek", // TODO: vervang door echte bedrijfsnaam
-  legalName: "Voorbeeld Elektrotechniek B.V.", // TODO
+  name: "Fifth River Electric", // TODO: vervang door echte bedrijfsnaam
+  legalName: "Fifth River Electric B.V.", // TODO
   slogan: "Uw elektrische installatie veilig en vakkundig geregeld", // TODO
   shortIntro:
     "Erkend elektrotechnisch installatiebedrijf voor particulieren en bedrijven. Van complete installaties tot laadpalen, zonnepanelen en 24/7 storingsdienst.", // TODO
@@ -35,7 +35,7 @@ export const company = {
   phoneRaw: "+31301234567", // gebruikt in tel: links — internationaal formaat
   emergencyPhone: "06 - 12 34 56 78", // TODO: 24/7 storingsnummer
   emergencyPhoneRaw: "+31612345678",
-  email: "info@voorbeeld-elektrotechniek.nl", // TODO
+  email: "info@fifthriverelectric.nl", // TODO
 
   // Adres
   address: {
@@ -72,7 +72,7 @@ export const company = {
   },
 
   // Productie-URL (voor canonical, sitemap, Open Graph). TODO: zet je echte domein.
-  url: "https://www.voorbeeld-elektrotechniek.nl",
+  url: "https://www.fifthriverelectric.nl",
 } as const;
 
 export type Company = typeof company;
