@@ -2,5 +2,5 @@ User-Agent: *
 Allow: /
 Disallow: /privacy
 
-Host: https://www.fifthriverelectric.nl
-Sitemap: https://www.fifthriverelectric.nl/sitemap.xml
+Host: https://aminetaoil-wq.github.io/SEO
+Sitemap: https://aminetaoil-wq.github.io/SEO/sitemap.xml
