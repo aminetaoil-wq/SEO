@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { services } from "@/lib/services";
 import { company } from "@/lib/company";
+import { absoluteUrl } from "@/lib/site";
 import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
 import ContactSection from "@/components/sections/ContactSection";
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   title: "Diensten — elektrische installaties, laadpalen & meer",
   description:
     "Bekijk alle diensten van onze erkende elektricien: complete installaties, groepenkast vervangen, laadpalen, zonnepanelen, verlichting, domotica, inspecties en 24/7 storingsdienst.",
-  alternates: { canonical: "/diensten" },
+  alternates: { canonical: absoluteUrl("/diensten") },
 };
 
 export default function DienstenPage() {

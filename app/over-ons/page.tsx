@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { company } from "@/lib/company";
+import { absoluteUrl } from "@/lib/site";
 import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
 import WhyUs from "@/components/sections/WhyUs";
@@ -10,7 +11,7 @@ import ContactSection from "@/components/sections/ContactSection";
 export const metadata: Metadata = {
   title: "Over ons — uw erkende elektrotechnisch installatiebedrijf",
   description: `Maak kennis met ${company.name}: een erkend elektrotechnisch installatiebedrijf in ${company.region}. Vakmanschap, veiligheid en transparante prijzen.`,
-  alternates: { canonical: "/over-ons" },
+  alternates: { canonical: absoluteUrl("/over-ons") },
 };
 
 export default function OverOnsPage() {

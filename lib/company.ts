@@ -76,3 +76,13 @@ export const company = {
 } as const;
 
 export type Company = typeof company;
+
+/**
+ * Web3Forms access key voor het contactformulier (components/ContactForm.tsx).
+ * Deze key is per ontwerp publiek/client-side en mag veilig in de repo staan.
+ *
+ * TODO (eigenaar): maak een gratis key aan op https://web3forms.com (vul je
+ * e-mailadres in) en plak hem hieronder. Zolang dit leeg is, toont het formulier
+ * een nette foutmelding in plaats van een aanvraag te versturen.
+ */
+export const web3formsAccessKey = "";

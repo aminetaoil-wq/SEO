@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { company } from "@/lib/company";
+import { siteUrl, absoluteUrl } from "@/lib/site";
 import { localBusinessJsonLd, JsonLd } from "@/lib/schema";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -12,9 +13,15 @@ const inter = Inter({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#0f1b2d",
+};
+
 // Standaard (site-brede) metadata. Per-pagina metadata vult dit aan/overschrijft.
 export const metadata: Metadata = {
-  metadataBase: new URL(company.url),
+  metadataBase: new URL(siteUrl),
   title: {
     default: `${company.name} | Erkend elektricien in ${company.address.city}`,
     template: `%s | ${company.name}`,
@@ -29,18 +36,17 @@ export const metadata: Metadata = {
     "zonnepanelen aansluiten",
     "storingsdienst",
   ],
-  alternates: { canonical: "/" },
+  alternates: { canonical: absoluteUrl("/") },
   openGraph: {
     type: "website",
     locale: "nl_NL",
-    url: company.url,
+    url: absoluteUrl("/"),
     siteName: company.name,
     title: `${company.name} | Erkend elektricien in ${company.address.city}`,
     description: company.shortIntro,
     images: [
       {
-        // TODO: plaats een echte og-image (1200×630) in /public/og-image.jpg
-        url: "/og-image.jpg",
+        url: absoluteUrl("/og-image.png"),
         width: 1200,
         height: 630,
         alt: company.name,
@@ -51,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${company.name} | Erkend elektricien in ${company.address.city}`,
     description: company.shortIntro,
-    images: ["/og-image.jpg"],
+    images: [absoluteUrl("/og-image.png")],
   },
   robots: { index: true, follow: true },
 };

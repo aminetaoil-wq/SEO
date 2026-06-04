@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { company } from "@/lib/company";
+import { siteUrl, absoluteUrl } from "@/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/privacy"],
     },
-    sitemap: `${company.url}/sitemap.xml`,
-    host: company.url,
+    sitemap: absoluteUrl("/sitemap.xml"),
+    host: siteUrl,
   };
 }
