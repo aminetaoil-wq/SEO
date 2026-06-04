@@ -1,8 +1,11 @@
 name: Deploy naar GitHub Pages
 
-# Bouwt de Next.js-site als statische export en publiceert deze op GitHub Pages.
-# Resultaat: https://<gebruiker>.github.io/<repo>/  (hier: aminetaoil-wq.github.io/SEO/)
-# Let op: GitHub Pages vereist een PUBLIEKE repo (of een betaald plan).
+# Bouwt de Next.js-site als statische export en publiceert deze naar de
+# gh-pages branch. GitHub Pages serveert die branch op
+# https://aminetaoil-wq.github.io/SEO/
+#
+# Eenmalig instellen (repo-eigenaar): Settings -> Pages -> Build and deployment
+#   Source = "Deploy from a branch", Branch = "gh-pages" / (root).
 
 on:
   push:
@@ -10,19 +13,16 @@ on:
       - claude/repo-contents-review-NDTGq
   workflow_dispatch:
 
-# Rechten die de officiële Pages-actions nodig hebben.
+# contents: write is nodig om de gebouwde site naar de gh-pages branch te pushen.
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
-# Zorgt dat er nooit twee deploys tegelijk lopen.
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,12 +34,6 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: GitHub Pages configureren
-        uses: actions/configure-pages@v5
-        with:
-          # Schakelt Pages automatisch in (bron: GitHub Actions) zodra de repo publiek is.
-          enablement: true
-
       - name: Dependencies installeren
         run: npm ci
 
@@ -48,21 +42,9 @@ jobs:
         env:
           GITHUB_PAGES: "true"
 
-      - name: Jekyll uitschakelen
-        run: touch out/.nojekyll
-
-      - name: Artifact uploaden
-        uses: actions/upload-pages-artifact@v3
+      - name: Publiceren naar gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: out
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Publiceren op GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
+          # peaceiris voegt automatisch een .nojekyll toe (geen Jekyll-verwerking).
