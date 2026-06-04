@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-inter: "Inter", system-ui, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Compenseer de sticky header bij ankerlinks (#sectie) */
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    @apply bg-white text-ink-800 antialiased;
+  }
+
+  /* Toegankelijke, zichtbare focus-states voor toetsenbordnavigatie */
+  :focus-visible {
+    @apply outline-none ring-2 ring-spark-400 ring-offset-2 ring-offset-white;
+  }
+
+  /* Respecteer voorkeur voor minder beweging (toegankelijkheid) */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Herbruikbare knop-stijlen */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold
+           transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2;
+  }
+  .btn-primary {
+    @apply btn bg-spark-400 text-ink-900 shadow-card hover:bg-spark-300 hover:shadow-card-hover
+           focus-visible:ring-spark-400;
+  }
+  .btn-secondary {
+    @apply btn bg-ink-900 text-white hover:bg-ink-800 focus-visible:ring-ink-400;
+  }
+  .btn-outline {
+    @apply btn border border-ink-200 bg-white text-ink-800 hover:border-ink-300 hover:bg-ink-50
+           focus-visible:ring-ink-400;
+  }
+  .btn-ghost-light {
+    @apply btn border border-white/30 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20
+           focus-visible:ring-white;
+  }
+
+  /* Sectie-eyebrow label */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-volt-500;
+  }
+}
+
+@layer utilities {
+  /* Subtiele, professionele scroll-in animatie (zie ScrollReveal-component) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
