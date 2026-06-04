@@ -1,0 +1,67 @@
+name: Deploy naar GitHub Pages
+
+# Bouwt de Next.js-site als statische export en publiceert deze op GitHub Pages.
+# Resultaat: https://<gebruiker>.github.io/<repo>/  (hier: aminetaoil-wq.github.io/SEO/)
+
+on:
+  push:
+    branches:
+      - claude/repo-contents-review-NDTGq
+  workflow_dispatch:
+
+# Rechten die de officiële Pages-actions nodig hebben.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Zorgt dat er nooit twee deploys tegelijk lopen.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js installeren
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: GitHub Pages configureren
+        uses: actions/configure-pages@v5
+        with:
+          # Schakelt Pages automatisch in (bron: GitHub Actions) als dat nog niet is gebeurd.
+          enablement: true
+
+      - name: Dependencies installeren
+        run: npm ci
+
+      - name: Statische export bouwen
+        run: npm run build
+        env:
+          GITHUB_PAGES: "true"
+
+      - name: Jekyll uitschakelen
+        run: touch out/.nojekyll
+
+      - name: Artifact uploaden
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publiceren op GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
