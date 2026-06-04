@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: /
+Disallow: /privacy
+
+Host: https://www.fifthriverelectric.nl
+Sitemap: https://www.fifthriverelectric.nl/sitemap.xml
