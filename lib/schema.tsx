@@ -90,3 +90,42 @@ export function JsonLd({ data }: { data: object }) {
     />
   );
 }
+
+/** BreadcrumbList JSON-LD voor binnenpagina's (rich results / kruimelpad). */
+export function breadcrumbJsonLd(items: { name: string; url: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+}
+
+/** Service JSON-LD voor de dienst-detailpagina's, gekoppeld aan het bedrijf. */
+export function serviceJsonLd(opts: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: opts.name,
+    serviceType: opts.name,
+    description: opts.description,
+    url: absoluteUrl(opts.path),
+    provider: {
+      "@type": "Electrician",
+      "@id": `${absoluteUrl("/")}#business`,
+      name: company.name,
+    },
+    areaServed: company.serviceAreas.map((city) => ({
+      "@type": "City",
+      name: city,
+    })),
+  };
+}

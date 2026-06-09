@@ -10,11 +10,14 @@ export default function PageHero({
   title,
   intro,
   breadcrumb,
+  parent,
 }: {
   eyebrow?: string;
   title: string;
   intro?: ReactNode;
   breadcrumb: string;
+  /** Optioneel tussenniveau, bijv. Home › Werkgebied › {Stad}. */
+  parent?: { label: string; href: string };
 }) {
   return (
     <section className="relative isolate overflow-hidden bg-ink-950 pt-16 text-white lg:pt-[4.5rem]">
@@ -45,6 +48,22 @@ export default function PageHero({
                 className="-rotate-90 text-ink-500"
               />
             </li>
+            {parent && (
+              <>
+                <li>
+                  <Link href={parent.href} className="hover:text-white">
+                    {parent.label}
+                  </Link>
+                </li>
+                <li aria-hidden="true">
+                  <IconChevronDown
+                    width={16}
+                    height={16}
+                    className="-rotate-90 text-ink-500"
+                  />
+                </li>
+              </>
+            )}
             <li className="font-medium text-white" aria-current="page">
               {breadcrumb}
             </li>

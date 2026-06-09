@@ -40,7 +40,12 @@ export default function DienstenPage() {
                   </span>
                   <div>
                     <h2 className="text-xl font-semibold text-ink-900">
-                      {service.title}
+                      <Link
+                        href={`/diensten/${service.slug}`}
+                        className="hover:text-volt-700"
+                      >
+                        {service.title}
+                      </Link>
                     </h2>
                     <p className="mt-2 max-w-2xl text-ink-600">
                       {service.description}
@@ -61,7 +66,13 @@ export default function DienstenPage() {
                       ))}
                     </ul>
                   </div>
-                  <div className="lg:pl-4">
+                  <div className="flex flex-col gap-2 lg:pl-4">
+                    <Link
+                      href={`/diensten/${service.slug}`}
+                      className="btn-secondary w-full lg:w-auto"
+                    >
+                      Meer informatie
+                    </Link>
                     <Link href="/contact" className="btn-primary w-full lg:w-auto">
                       Offerte aanvragen
                     </Link>

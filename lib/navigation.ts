@@ -7,6 +7,7 @@
  */
 export const navItems = [
   { label: "Diensten", href: "/diensten" },
+  { label: "Werkgebied", href: "/werkgebied" },
   { label: "Werkwijze", href: "/#werkwijze" },
   { label: "Projecten", href: "/projecten" },
   { label: "Over ons", href: "/over-ons" },
