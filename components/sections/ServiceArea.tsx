@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { company } from "@/lib/company";
+import { areas } from "@/lib/areas";
 import SectionHeading from "@/components/SectionHeading";
 import ScrollReveal from "@/components/ScrollReveal";
 import { IconPin } from "@/components/Icons";
@@ -20,13 +22,15 @@ export default function ServiceArea() {
 
           <ScrollReveal className="mt-8">
             <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-              {company.serviceAreas.map((city) => (
-                <li
-                  key={city}
-                  className="flex items-center gap-2 rounded-lg border border-ink-100 bg-ink-50/60 px-3 py-2 text-sm font-medium text-ink-700"
-                >
-                  <IconPin width={16} height={16} className="text-volt-500" />
-                  Elektricien {city}
+              {areas.map((area) => (
+                <li key={area.slug}>
+                  <Link
+                    href={`/werkgebied/${area.slug}`}
+                    className="flex items-center gap-2 rounded-lg border border-ink-100 bg-ink-50/60 px-3 py-2 text-sm font-medium text-ink-700 transition-colors hover:border-ink-200 hover:text-ink-900"
+                  >
+                    <IconPin width={16} height={16} className="text-volt-500" />
+                    Elektricien {area.name}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -34,7 +38,14 @@ export default function ServiceArea() {
 
           <p className="mt-6 text-sm text-ink-500">
             Staat uw plaats er niet bij? Neem gerust contact op — vaak kunnen we
-            ook daar van dienst zijn.
+            ook daar van dienst zijn.{" "}
+            <Link
+              href="/werkgebied"
+              className="font-medium text-volt-600 hover:text-volt-700"
+            >
+              Bekijk het hele werkgebied
+            </Link>
+            .
           </p>
         </div>
 

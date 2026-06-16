@@ -24,7 +24,7 @@ export default function Services() {
             return (
               <ScrollReveal key={service.slug} delay={(i % 4) * 60}>
                 <Link
-                  href={`/diensten#${service.slug}`}
+                  href={`/diensten/${service.slug}`}
                   className="group flex h-full flex-col rounded-2xl border border-ink-100 bg-white p-6 shadow-card transition-all duration-200 hover:-translate-y-1 hover:border-ink-200 hover:shadow-card-hover focus-visible:-translate-y-1"
                 >
                   <span className="grid h-12 w-12 place-items-center rounded-xl bg-ink-50 text-ink-800 transition-colors group-hover:bg-spark-400 group-hover:text-ink-900">

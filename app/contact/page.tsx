@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { company } from "@/lib/company";
+import { absoluteUrl } from "@/lib/site";
 import PageHero from "@/components/PageHero";
 import ContactSection from "@/components/sections/ContactSection";
 import Faq from "@/components/sections/Faq";
@@ -7,7 +8,7 @@ import Faq from "@/components/sections/Faq";
 export const metadata: Metadata = {
   title: "Contact & offerte aanvragen",
   description: `Neem contact op met ${company.name} in ${company.address.city}. Vraag een vrijblijvende offerte aan, bel ons direct of gebruik de 24/7 storingsdienst.`,
-  alternates: { canonical: "/contact" },
+  alternates: { canonical: absoluteUrl("/contact") },
 };
 
 export default function ContactPage() {

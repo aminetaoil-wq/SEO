@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { services } from "@/lib/services";
+import { company, web3formsAccessKey } from "@/lib/company";
 import { IconCheck, IconArrowRight } from "./Icons";
 
 type Errors = Partial<Record<"name" | "email" | "phone" | "message", string>>;
@@ -9,13 +10,9 @@ type Errors = Partial<Record<"name" | "email" | "phone" | "message", string>>;
 /**
  * Offerteformulier met client-side validatie en een nette succesmelding.
  *
- * ⚠️ TODO (eigenaar) — BACKEND-VERZENDING:
- * Dit formulier valideert client-side en toont een succesmelding, maar
- * verstuurt nog NIETS. Koppel hier je eigen verzending aan, bijvoorbeeld:
- *   1. Een Next.js Route Handler (app/api/contact/route.ts) die mailt via
- *      bijv. Resend / Nodemailer / SendGrid; of
- *   2. Een form-service zoals Formspree / Web3Forms (action-URL invullen).
- * Zie de `submitForm`-functie hieronder voor de exacte plek.
+ * Verzending loopt via Web3Forms (werkt op een statische site, geen backend
+ * nodig). Vul de access key in `lib/company.ts` (web3formsAccessKey) in; de
+ * aanvragen komen dan binnen op het bij Web3Forms ingestelde e-mailadres.
  */
 export default function ContactForm() {
   const [errors, setErrors] = useState<Errors>({});
@@ -46,15 +43,32 @@ export default function ContactForm() {
     return next;
   }
 
-  async function submitForm(_form: HTMLFormElement) {
-    // TODO (eigenaar): vervang deze stub door een echte verzending.
-    // Voorbeeld met een Route Handler:
-    //   const res = await fetch("/api/contact", {
-    //     method: "POST",
-    //     body: new FormData(_form),
-    //   });
-    //   if (!res.ok) throw new Error("Verzenden mislukt");
-    await new Promise((r) => setTimeout(r, 700)); // simulatie van netwerk
+  async function submitForm(form: HTMLFormElement) {
+    if (!web3formsAccessKey) {
+      throw new Error("Formulier is nog niet geconfigureerd.");
+    }
+    const data = new FormData(form);
+    const payload = {
+      access_key: web3formsAccessKey,
+      subject: `Nieuwe offerteaanvraag — ${data.get("name") ?? ""}`,
+      from_name: company.name,
+      name: data.get("name"),
+      email: data.get("email"),
+      phone: data.get("phone"),
+      service: data.get("type"),
+      message: data.get("message"),
+      botcheck: data.get("botcheck"), // honeypot — moet leeg blijven
+    };
+
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok || !json.success) {
+      throw new Error(json.message || "Verzenden mislukt");
+    }
   }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -114,6 +128,16 @@ export default function ContactForm() {
       className="rounded-2xl border border-ink-100 bg-white p-6 shadow-card sm:p-8"
       aria-label="Offerteformulier"
     >
+      {/* Honeypot tegen spam (Web3Forms) — onzichtbaar voor mensen */}
+      <input
+        type="checkbox"
+        name="botcheck"
+        className="hidden"
+        style={{ display: "none" }}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+      />
       <div className="grid gap-5 sm:grid-cols-2">
         <Field
           label="Naam"

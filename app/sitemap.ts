@@ -1,14 +1,26 @@
 import type { MetadataRoute } from "next";
-import { company } from "@/lib/company";
+import { absoluteUrl } from "@/lib/site";
+import { services } from "@/lib/services";
+import { areaSlugs } from "@/lib/areas";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ["", "/diensten", "/over-ons", "/projecten", "/contact"];
   const now = new Date();
 
-  return routes.map((route) => ({
-    url: `${company.url}${route}`,
+  const staticRoutes = [
+    "/",
+    "/diensten",
+    "/werkgebied",
+    "/over-ons",
+    "/projecten",
+    "/contact",
+  ];
+  const serviceRoutes = services.map((s) => `/diensten/${s.slug}`);
+  const areaRoutes = areaSlugs.map((slug) => `/werkgebied/${slug}`);
+
+  return [...staticRoutes, ...serviceRoutes, ...areaRoutes].map((route) => ({
+    url: absoluteUrl(route),
     lastModified: now,
-    changeFrequency: route === "" ? "weekly" : "monthly",
-    priority: route === "" ? 1 : 0.8,
+    changeFrequency: route === "/" ? "weekly" : "monthly",
+    priority: route === "/" ? 1 : 0.8,
   }));
 }

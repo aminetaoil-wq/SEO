@@ -1,4 +1,5 @@
 import { company } from "./company";
+import { absoluteUrl } from "./site";
 
 /**
  * schema.org JSON-LD voor een lokaal elektrotechnisch bedrijf.
@@ -6,17 +7,25 @@ import { company } from "./company";
  * herkend voor lokale resultaten.
  */
 export function localBusinessJsonLd() {
+  // Openingstijden config-gedreven: alleen de doordeweekse tijden hebben echte
+  // klok-uren (zaterdag "Op afspraak" / zondag "Gesloten" hebben dat niet en
+  // worden bewust weggelaten — geen verzonnen tijden in de structured data).
+  const weekday = company.openingHours.find((o) => /\d{1,2}:\d{2}/.test(o.hours));
+  const times = weekday?.hours.match(/\d{1,2}:\d{2}/g);
+  const opens = times?.[0] ?? "08:00";
+  const closes = times?.[1] ?? "17:00";
+
   return {
     "@context": "https://schema.org",
     "@type": "Electrician",
-    "@id": `${company.url}/#business`,
+    "@id": `${absoluteUrl("/")}#business`,
     name: company.name,
     legalName: company.legalName,
     description: company.shortIntro,
-    url: company.url,
+    url: absoluteUrl("/"),
     telephone: company.phoneRaw,
     email: company.email,
-    image: `${company.url}/og-image.jpg`, // TODO: plaats een echte og-image in /public
+    image: absoluteUrl("/og-image.png"),
     priceRange: "€€",
     address: {
       "@type": "PostalAddress",
@@ -33,10 +42,31 @@ export function localBusinessJsonLd() {
       {
         "@type": "OpeningHoursSpecification",
         dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        opens: "08:00",
-        closes: "17:00",
+        opens,
+        closes,
       },
     ],
+    // 24/7 storingsdienst als apart contactpunt.
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: company.emergencyPhoneRaw,
+      contactType: "emergency",
+      availableLanguage: "Dutch",
+      hoursAvailable: {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday",
+        ],
+        opens: "00:00",
+        closes: "23:59",
+      },
+    },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9", // TODO: maak waarheidsgetrouw of verwijder dit blok
@@ -59,4 +89,43 @@ export function JsonLd({ data }: { data: object }) {
       dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />
   );
+}
+
+/** BreadcrumbList JSON-LD voor binnenpagina's (rich results / kruimelpad). */
+export function breadcrumbJsonLd(items: { name: string; url: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+}
+
+/** Service JSON-LD voor de dienst-detailpagina's, gekoppeld aan het bedrijf. */
+export function serviceJsonLd(opts: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: opts.name,
+    serviceType: opts.name,
+    description: opts.description,
+    url: absoluteUrl(opts.path),
+    provider: {
+      "@type": "Electrician",
+      "@id": `${absoluteUrl("/")}#business`,
+      name: company.name,
+    },
+    areaServed: company.serviceAreas.map((city) => ({
+      "@type": "City",
+      name: city,
+    })),
+  };
 }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { services } from "@/lib/services";
 import { company } from "@/lib/company";
+import { absoluteUrl } from "@/lib/site";
 import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
 import ContactSection from "@/components/sections/ContactSection";
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   title: "Diensten — elektrische installaties, laadpalen & meer",
   description:
     "Bekijk alle diensten van onze erkende elektricien: complete installaties, groepenkast vervangen, laadpalen, zonnepanelen, verlichting, domotica, inspecties en 24/7 storingsdienst.",
-  alternates: { canonical: "/diensten" },
+  alternates: { canonical: absoluteUrl("/diensten") },
 };
 
 export default function DienstenPage() {
@@ -39,7 +40,12 @@ export default function DienstenPage() {
                   </span>
                   <div>
                     <h2 className="text-xl font-semibold text-ink-900">
-                      {service.title}
+                      <Link
+                        href={`/diensten/${service.slug}`}
+                        className="hover:text-volt-700"
+                      >
+                        {service.title}
+                      </Link>
                     </h2>
                     <p className="mt-2 max-w-2xl text-ink-600">
                       {service.description}
@@ -60,7 +66,13 @@ export default function DienstenPage() {
                       ))}
                     </ul>
                   </div>
-                  <div className="lg:pl-4">
+                  <div className="flex flex-col gap-2 lg:pl-4">
+                    <Link
+                      href={`/diensten/${service.slug}`}
+                      className="btn-secondary w-full lg:w-auto"
+                    >
+                      Meer informatie
+                    </Link>
                     <Link href="/contact" className="btn-primary w-full lg:w-auto">
                       Offerte aanvragen
                     </Link>

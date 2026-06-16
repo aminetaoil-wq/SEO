@@ -34,6 +34,27 @@ export default function Footer() {
             <a href={`tel:${company.phoneRaw}`} className="btn-ghost-light">
               <IconPhone width={18} height={18} /> {company.phone}
             </a>
+            {company.whatsappRaw && (
+              <a
+                href={`https://wa.me/${company.whatsappRaw}?text=${encodeURIComponent(
+                  company.whatsappMessage,
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-ghost-light"
+              >
+                <svg
+                  width={18}
+                  height={18}
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2 22l5.3-1.39a9.86 9.86 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.44 9.9-9.9 0-2.64-1.03-5.13-2.9-7C17.18 3.04 14.69 2 12.04 2zm0 18.02h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.03-.2-.31a8.2 8.2 0 0 1-1.26-4.37c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.69 8.24-8.23 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.23-1.48-1.38-1.73-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.42l-.48-.01c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28z" />
+                </svg>
+                WhatsApp
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -84,7 +105,7 @@ export default function Footer() {
             {services.slice(0, 6).map((s) => (
               <li key={s.slug}>
                 <Link
-                  href={`/diensten#${s.slug}`}
+                  href={`/diensten/${s.slug}`}
                   className="text-ink-300 transition-colors hover:text-white"
                 >
                   {s.title}

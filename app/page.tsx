@@ -1,3 +1,6 @@
+import type { Metadata } from "next";
+import { company } from "@/lib/company";
+import { absoluteUrl } from "@/lib/site";
 import { faqs } from "@/lib/faq";
 import { JsonLd } from "@/lib/schema";
 import Hero from "@/components/sections/Hero";
@@ -10,6 +13,14 @@ import Testimonials from "@/components/sections/Testimonials";
 import ServiceArea from "@/components/sections/ServiceArea";
 import Faq from "@/components/sections/Faq";
 import ContactSection from "@/components/sections/ContactSection";
+
+export const metadata: Metadata = {
+  title: `${company.name} | Erkend elektricien in ${company.address.city}`,
+  description: company.shortIntro,
+  // openGraph (incl. afbeelding + url) wordt geërfd van app/layout.tsx,
+  // die al absoluteUrl("/") als og:url gebruikt — niet overschrijven.
+  alternates: { canonical: absoluteUrl("/") },
+};
 
 /**
  * Homepage — conversiegerichte one-pager met alle kernsecties via ankerlinks.

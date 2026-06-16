@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { company } from "@/lib/company";
+import { absoluteUrl } from "@/lib/site";
 import PageHero from "@/components/PageHero";
 import Projects from "@/components/sections/Projects";
 import Testimonials from "@/components/sections/Testimonials";
@@ -8,7 +9,7 @@ import ContactSection from "@/components/sections/ContactSection";
 export const metadata: Metadata = {
   title: "Projecten — een greep uit ons werk",
   description: `Bekijk uitgevoerde projecten van ${company.name} in ${company.region}: installaties, laadpalen, groepenkasten, zonnepanelen, verlichting en domotica.`,
-  alternates: { canonical: "/projecten" },
+  alternates: { canonical: absoluteUrl("/projecten") },
 };
 
 export default function ProjectenPage() {

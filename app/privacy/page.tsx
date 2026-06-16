@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { company } from "@/lib/company";
+import { absoluteUrl } from "@/lib/site";
 import PageHero from "@/components/PageHero";
 
 export const metadata: Metadata = {
   title: "Privacyverklaring",
   description: `Privacyverklaring van ${company.name}.`,
-  alternates: { canonical: "/privacy" },
+  alternates: { canonical: absoluteUrl("/privacy") },
   robots: { index: false, follow: true },
 };
 

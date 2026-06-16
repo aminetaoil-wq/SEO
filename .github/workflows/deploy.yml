@@ -1,0 +1,50 @@
+name: Deploy naar GitHub Pages
+
+# Bouwt de Next.js-site als statische export en publiceert deze naar de
+# gh-pages branch. GitHub Pages serveert die branch op
+# https://aminetaoil-wq.github.io/SEO/
+#
+# Eenmalig instellen (repo-eigenaar): Settings -> Pages -> Build and deployment
+#   Source = "Deploy from a branch", Branch = "gh-pages" / (root).
+
+on:
+  push:
+    branches:
+      - claude/repo-contents-review-NDTGq
+  workflow_dispatch:
+
+# contents: write is nodig om de gebouwde site naar de gh-pages branch te pushen.
+permissions:
+  contents: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js installeren
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Dependencies installeren
+        run: npm ci
+
+      - name: Statische export bouwen
+        run: npm run build
+        env:
+          GITHUB_PAGES: "true"
+
+      - name: Publiceren naar gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
+          # peaceiris voegt automatisch een .nojekyll toe (geen Jekyll-verwerking).
