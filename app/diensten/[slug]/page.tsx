@@ -8,7 +8,13 @@ import { areas } from "@/lib/areas";
 import { JsonLd, breadcrumbJsonLd, serviceJsonLd } from "@/lib/schema";
 import PageHero from "@/components/PageHero";
 import ContactSection from "@/components/sections/ContactSection";
-import { IconCheck, IconArrowRight, IconPin, IconPhone } from "@/components/Icons";
+import {
+  IconCheck,
+  IconArrowRight,
+  IconPin,
+  IconPhone,
+  IconEuro,
+} from "@/components/Icons";
 
 export const dynamicParams = false;
 
@@ -99,8 +105,29 @@ export default function DienstDetailPage({
             </div>
           </div>
 
-          {/* Zijbalk: werkgebied + verwante diensten */}
+          {/* Zijbalk: prijs + werkgebied + verwante diensten */}
           <aside className="space-y-6">
+            {service.priceFrom && (
+              <div className="rounded-2xl border border-spark-400/40 bg-spark-400/10 p-6">
+                <div className="flex items-center gap-2 text-sm font-medium text-ink-600">
+                  <IconEuro width={18} height={18} className="text-volt-600" />
+                  Richtprijs
+                </div>
+                <p className="mt-1 text-3xl font-bold text-ink-900">
+                  vanaf €{service.priceFrom}
+                </p>
+                {service.priceNote && (
+                  <p className="mt-1 text-sm text-ink-500">{service.priceNote}</p>
+                )}
+                <Link
+                  href="/contact"
+                  className="btn-primary mt-4 w-full text-sm"
+                >
+                  Vraag een exacte offerte <IconArrowRight width={16} height={16} />
+                </Link>
+              </div>
+            )}
+
             <div className="rounded-2xl border border-ink-100 bg-ink-50/60 p-6">
               <h2 className="text-base font-semibold text-ink-900">
                 In heel {company.region}

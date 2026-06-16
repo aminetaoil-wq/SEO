@@ -19,6 +19,15 @@ export type Service = {
   body: string[];
   icon: ComponentType<SVGProps<SVGSVGElement>>;
   highlights: string[];
+  /**
+   * Optionele richtprijs ("vanaf"), bijv. "295". Toont op de detailpagina een
+   * prijskaart — een sterke differentiator, want de meeste concurrenten tonen
+   * géén prijzen. Laat leeg/weg als je (nog) geen prijs wilt tonen.
+   * TODO (eigenaar): vul echte, waarheidsgetrouwe richtprijzen in.
+   */
+  priceFrom?: string;
+  /** Optionele toelichting bij de richtprijs, bijv. "incl. montage en BTW". */
+  priceNote?: string;
 };
 
 /**

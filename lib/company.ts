@@ -37,6 +37,18 @@ export const company = {
   emergencyPhoneRaw: "+31612345678",
   email: "info@fifthriverelectric.nl", // TODO
 
+  // WhatsApp — gebruikt voor de mobiele sticky-balk en contact-CTA's.
+  // Laat whatsappRaw leeg ("") om de WhatsApp-knoppen te verbergen.
+  // TODO: vul je eigen WhatsApp-nummer in (internationaal, zonder +, spaties of streepjes).
+  whatsappRaw: "31612345678", // bijv. "31612345678"
+  whatsappMessage:
+    "Hallo, ik heb een vraag over elektrawerk en zou graag een offerte aanvragen.",
+
+  // Concrete snelheidsbelofte — krachtige conversie-trigger. Houd dit waar.
+  // TODO: pas aan naar wat je écht kunt waarmaken.
+  responseTime: "Binnen 24 uur reactie", // reactietijd op aanvragen
+  emergencyResponse: "Bij spoed snel ter plaatse", // TODO: bijv. "Binnen 2 uur ter plaatse"
+
   // Adres
   address: {
     street: "Voorbeeldstraat 12", // TODO
@@ -69,6 +81,26 @@ export const company = {
     reviewCount: "120+",
     projects: "750+",
     yearsExperience: "15+",
+  },
+
+  /**
+   * Reviews / beoordelingen.
+   *
+   * ⚠️ BELANGRIJK: toon nooit verzonnen review-cijfers — dat is misleidend en
+   * juridisch riskant (oneerlijke handelspraktijk). Zolang `show: false` staat,
+   * worden er nergens op de site beoordelingsscores of -citaten getoond.
+   *
+   * TODO (eigenaar): verzamel echte reviews (bijv. via Google), zet hieronder
+   * `show: true`, vul de echte score, het aantal en de bron-URL in, en voeg de
+   * citaten toe in lib/reviews.ts. Dan verschijnen de review-pill in de hero én
+   * de klantbeoordelingen-sectie automatisch.
+   */
+  reviews: {
+    show: false,
+    rating: "", // bijv. "4,9"
+    count: "", // bijv. "120+"
+    source: "Google", // platform waar de reviews vandaan komen
+    sourceUrl: "", // link naar je reviewprofiel
   },
 
   // Productie-URL (voor canonical, sitemap, Open Graph). TODO: zet je echte domein.

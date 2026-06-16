@@ -6,6 +6,7 @@ import { siteUrl, absoluteUrl } from "@/lib/site";
 import { localBusinessJsonLd, JsonLd } from "@/lib/schema";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import StickyMobileCTA from "@/components/StickyMobileCTA";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -78,8 +79,12 @@ export default function RootLayout({
           Naar hoofdinhoud
         </a>
         <Header />
-        <main id="main">{children}</main>
+        {/* Extra onderruimte op mobiel zodat de sticky CTA-balk niets afdekt */}
+        <main id="main" className="pb-16 lg:pb-0">
+          {children}
+        </main>
         <Footer />
+        <StickyMobileCTA />
         {/* LocalBusiness / Electrician schema.org JSON-LD (site-breed) */}
         <JsonLd data={localBusinessJsonLd()} />
       </body>
